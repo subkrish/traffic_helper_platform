@@ -20,13 +20,6 @@ API_KEY = "yzxo7kcqvxe75s81gh97g1qlq5g8v5mt"
 threshold = 20
 
 
-# def authDatabase(DB_name, col_name):
-# 	client = MongoClient("localhost", 27017)
-# 	db = client[DB_name]
-# 	col1 = db[col_name]
-	
-# 	return col1
-
 def convert_to_meters(foo):
 	if (foo.split(' ')[-1] == 'm'):
 		return float(foo.split(' ')[0])
@@ -62,7 +55,7 @@ def change_format(arr):
 def change_format2(arr):
 	return str(arr[0])+','+str(arr[1])
 
-
+# Takes the nodes and searches for its corrosponding coordinate
 def convert_to_coordinates(nodes,points):
 	coordinate_arr = []
 
@@ -95,6 +88,8 @@ def convert_to_coordinates(nodes,points):
 	# print len(coordinate_arr)
 	return coordinate_arr
 
+
+# Takes finds the speed for each road, between each point and the final point of the road
 def get_speed_arr(points, nodes, filename):
 
 	curr_time = int(time.time())+1000
@@ -168,7 +163,7 @@ def get_speed_arr(points, nodes, filename):
 
 	return  coordinate_arr,speed_arr, dist_arr, duration_arr
 
-
+# The main driver function
 def get_bottlenecks (lat,lng, radius, level, uniqueId, shoId, qName):
 
 	# lat = 28.527574
@@ -252,6 +247,8 @@ def get_bottlenecks (lat,lng, radius, level, uniqueId, shoId, qName):
 	bottlenecks_arr = []
 
 	iii = 0
+
+	#This loop finds speeds for each road
 	for road in roads:
 		coordinate_arr,speed_arr, dist_arr, duration_arr = get_speed_arr(points, road['nodes'], filename) # [ lat, lng, speed ]
 		iii += 1

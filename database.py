@@ -11,6 +11,13 @@ client = MongoClient("localhost", 27017)
 db = client["BTP"]
 col1 = db["userInformation"]
 
+'''
+	Classes for station_house_officer, receiver, query, result
+
+	Each class has methods to convert its object into json called get_object_json()
+'''
+
+
 
 class station_house_officer:
 	
@@ -104,6 +111,8 @@ class query:
 		# print(datetime.datetime.now())
 		return datetime.now()
 
+
+	#this method is run to get the results based on the input of the query
 	def runQuery(self, shoId):
 
 		while(1):
