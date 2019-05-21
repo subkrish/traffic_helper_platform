@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Dashboard</title>
+    <!-- Bootstrap Styles-->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="{{ url_for('static', filename='js/morris/morris-0.4.3.min.css') }}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="{{ url_for('static', filename='css/custom-styles.css') }}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <script>
+      var userInfo = {{ uInfo|tojson }} ;
+    </script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-home fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    
+                    <ul class="dropdown-menu dropdown-home">
+                        <li><a href="/logout"></i><i class="fa fa-home fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        
+        <!-- -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <li>
+                        <a class="active-menu" href="/dashboard"><i class="fa fa-home fa-2x"></i> Home </a>
+                    </li>
+                    <li>
+                        <a href="/queryMap"><i class="fa fa-globe fa-2x"></i> Active Query Map</a>
+                    </li>
+                    <li>
+                        <a href="/create"><i class="fa fa-globe fa-2x"></i> Add New Query</a>
+                    </li>
+                    <li>
+                        <a href="/allquery"><i class="fa fa-globe fa-2x"></i> All Queries</a>
+                    </li>
+
+                    
+                </ul>
+
+            </div>
+
+        </nav>
+
+
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header" id="shoName">
+                            <!-- {% for md in uInfo %}
+                                Welcome Mr. {{ md.name }}
+                            {% endfor %} -->
+                            Welcome Mr. 
+
+                        </h1>
+                    </div>
+                </div>
+
+                <script >
+                    var userInfoFinal = JSON.parse(userInfo);
+                    document.getElementById('shoName').innerHTML += userInfoFinal["name"];
+                </script>
+
+                <script type="text/javascript">
+                    function clickedDiv(divEl){
+                        window.location.href='/modify/' + $(divEl).attr("id")
+                    }
+                </script>
+
+
+                <!-- /. ROW  -->
+                <div id="row" class="row">
+                    <script type="text/javascript">
+                        var i;
+                        console.log(userInfoFinal["queries"]);
+                        for (i = 0; i < userInfoFinal["queries"].length; i++) {
+                            var innerDiv = document.createElement('div');
+                            innerDiv.className="col-md-3 col-sm-12 col-xs-12";
+                            innerDiv.style="cursor:pointer"
+                            innerDiv.id = i
+                            var innerDiv2 = document.createElement('div');
+                            if (!userInfoFinal["queries"][i]["completed"]) {
+                                innerDiv2.className="panel panel-primary text-center no-boder bg-color-green";
+                            } else {
+                                innerDiv2.className="panel panel-primary text-center no-boder bg-color-red";
+                            }
+                            var innerDiv3 = document.createElement('div');
+                            innerDiv3.className="panel-body";
+
+                            var iEle = document.createElement('i');
+                            iEle.className="fa fa-hashtag fa-5x";
+
+                            innerDiv3.appendChild(iEle);
+
+                            var queryTotal = 0;
+                            for (var j = 0;j < userInfoFinal["results"].length;j++) {
+                                if (userInfoFinal["results"][j]["qName"] == userInfoFinal["queries"][i]["query_name"]) {
+                                    queryTotal += 1;
+                                }
+                            }
+
+                            var h3Ele = document.createElement('h3');
+                            h3Ele.innerHTML="Query Results: " + queryTotal
+
+                            innerDiv3.appendChild(h3Ele);
+                            innerDiv2.appendChild(innerDiv3);
+
+                            var innerDiv4 = document.createElement('div');
+                            innerDiv4.className="panel-footer back-footer-blue"
+                            innerDiv4.innerHTML=userInfoFinal["queries"][i]["query_name"]
+
+                            innerDiv2.appendChild(innerDiv4);
+                            innerDiv.appendChild(innerDiv2);
+
+                            innerDiv.onclick = function() {
+                                console.log("clicked")
+                                clickedDiv(this);
+                            };
+                            document.getElementById('row').appendChild(innerDiv);
+
+                        }
+                        document.getElementsByTagName('body').appendChild(document.getElementById('row'));
+                    </script>
+                </div>
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="{{ url_for('static', filename='js/jquery-1.10.2.js') }}"></script>
+    <!-- Bootstrap Js -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- Metis Menu Js -->
+    <script src="{{ url_for('static', filename='js/jquery.metisMenu.js') }}"></script>
+    <!-- Morris Chart Js -->
+    <script src="{{ url_for('static', filename='js/morris/raphael-2.1.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/morris/morris.js') }}"></script>
+    <!-- Custom Js -->
+    <script src="{{ url_for('static', filename='js/custom-scripts.js') }}"></script>
+
+
+</body>
+
+</html>
