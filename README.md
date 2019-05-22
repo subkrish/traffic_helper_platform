@@ -20,15 +20,15 @@ Please change the absolute location of the chromedriver in line 91 of send_greet
 To Run the Server:-
 
 1. Run the mongodb server on a terminal 
-	-sudo mongod
+	> sudo mongod
 
 2. Open a seperate terminal window and run the flask server
-	-python app.py
+	> python app.py
 
-3. A window will pop up which requires you to perform a 1 time login to your whatsapp account 
-	- use your phone to login
+3. A window will pop up which requires you to perform a one-time login to your whatsapp account 
+	> use your phone to login
 
 4. The server is setup and ready to serve at localhost:5000
-	- It can be accessed anywhere within the local network
+	> It can be accessed anywhere within the local network
 
 
