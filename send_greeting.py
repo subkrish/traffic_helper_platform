@@ -4,7 +4,7 @@ import pandas as pd
 
 
 
-
+#Function to extract contacts from the google contact CSV
 def filter_contacts(filename):
     all_contacts = pd.read_csv(filename)
     all_contacts = all_contacts[["Name", "Given Name"]]
@@ -26,10 +26,9 @@ def filter_contacts(filename):
 
 
 
+#Function to select contact and send a new message starting information in the chrome window using selenium
 def irritatePeopleStart(queryName,uId):
-
     iterations=1
-
     for z in range(0,iterations):
 
         for key, value in wishingContacts.items():
@@ -57,6 +56,7 @@ def irritatePeopleStart(queryName,uId):
 
 
 
+#Function to select contact and send the Traffic Information in the chrome window using selenium
 def irritatePeople(long1,lat1,long2,lat2,speed,uId):
 
     iterations=1
@@ -88,7 +88,7 @@ def irritatePeople(long1,lat1,long2,lat2,speed,uId):
 
 
 wishingContacts = filter_contacts("google.csv")
-driver = webdriver.Chrome('/Users/varnitjain/Desktop/mapScript-1/chromedriver')
+driver = webdriver.Chrome('CHROMEDRIVER-PATH')
 driver.get('https://web.whatsapp.com')
 sleep(2)
 contacts = dict()
